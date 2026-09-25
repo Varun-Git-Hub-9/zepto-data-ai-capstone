@@ -25,3 +25,15 @@ MOCK_LLM=1
 pip install -r requirements.txt
 cd ~/zepto-data-ai-capstone
 
+## Tested API Responses
+
+I tested both routing paths locally with `MOCK_LLM=1`.
+
+### Policy question
+
+Request:
+
+```bash
+curl -X POST http://127.0.0.1:8000/ask \
+-H "Content-Type: application/json" \
+-d '{"query":"What is the return policy?"}'

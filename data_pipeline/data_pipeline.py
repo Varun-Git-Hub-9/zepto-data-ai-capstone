@@ -29,7 +29,7 @@ def scrape_books():
             title = item.h3.a["title"]
 
             price_text = item.select_one(".price_color").get_text(strip=True)
-            price_gbp = float(price_text.replace("£", ""))
+            price_gbp = float(price_text.replace("Â", "").replace("£", ""))
 
             rating_text = item.p["class"][1]
             rating = rating_map.get(rating_text)

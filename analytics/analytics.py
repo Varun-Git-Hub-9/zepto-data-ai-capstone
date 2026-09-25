@@ -4,10 +4,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Load Titanic dataset
-df = sns.load_dataset("titanic")
-
-# Save one offline copy immediately after loading
-df.to_csv("titanic.csv", index=False)
+# I keep a local CSV as a fallback so the analysis can still run offline.
+try:
+    df = sns.load_dataset("titanic")
+    df.to_csv("titanic.csv", index=False)
+    print("Titanic dataset loaded from Seaborn and saved locally.")
+except Exception:
+    df = pd.read_csv("titanic.csv")
+    print("Could not load from Seaborn, so I used the local titanic.csv copy.")
 
 print("Dataset shape:")
 print(df.shape)
@@ -813,8 +817,9 @@ r2 = r2_score(
 
 n = len(y_reg_test)
 
-# Number of original predictor columns
-p = X_reg_test.shape[1]
+# Use the actual number of predictors after preprocessing.
+X_reg_test_processed = regression_pipeline.named_steps["preprocessor"].transform(X_reg_test)
+p = X_reg_test_processed.shape[1]
 
 adjusted_r2 = 1 - (
     (1 - r2) * (n - 1) / (n - p - 1)
